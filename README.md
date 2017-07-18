@@ -1,2 +1,2 @@
 # streamingpool-core-starter
-This is a starter project an high level abstraction over Reactive Streams libraries that is currently used inside CERN.
+Spring Boot Starter project for using long-living streams managed by streamingpool.
