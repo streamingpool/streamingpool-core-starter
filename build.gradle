@@ -1,0 +1,108 @@
+buildscript {
+    project.ext.CERN_VM = System.getProperty('CERN_TECHNET_VM') ?: System.getenv('CERN_TECHNET_VM') ?: false
+    project.ext.TRAVIS_CI = System.getProperty('TRAVIS') ?: System.getenv('TRAVIS') ?: false
+    project.ext.DEPLOYMENT = System.getProperty('deployment') ?: false
+    project.ext.VCS_TAG = System.getProperty('TRAVIS_TAG') ?: System.getenv('TRAVIS_TAG')
+    project.ext.POM = [
+            groupId   : 'org.streamingpool',
+            artifactId: 'streamingpool-core-starter',
+            description: 'This is the starter for project streamingpool-core-starter.'
+    ]
+    project.ext.INFO = [
+            repo: 'https://github.com/streamingpool/streamingpool-core-starter.git',
+            url: 'http://www.streamingpool.org/',
+            github: 'https://github.com/streamingpool/streamingpool-core-starter',
+            githubIssues: 'https://github.com/streamingpool/streamingpool-core-starter/issues'
+    ]
+    project.ext.BINTRAY = [
+            repo: 'streamingpool-repos',
+            name: 'org.streamingpool:streamingpool-core-starter',
+            organization: 'streamingpool',
+            userName: 'streamingpool-dev',
+            apiToken: System.getenv('BINTRAY_API_TOKEN')
+    ]
+    repositories {
+        if (CERN_VM) {
+            maven { url 'http://artifactory.cern.ch/repo' }
+            maven { url 'http://artifactory.cern.ch/jcenter' }
+        } else {
+            mavenCentral()
+            jcenter()
+        }
+    }
+    dependencies {
+        classpath 'com.netflix.nebula:nebula-publishing-plugin:5.1.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'nebula.maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+repositories {
+    if (CERN_VM) {
+        maven { url 'http://artifactory.cern.ch/repo' }
+        maven { url 'http://artifactory.cern.ch/jcenter' }
+    } else {
+        mavenCentral()
+        jcenter()
+    }
+}
+
+if (DEPLOYMENT) {
+    println 'Applying deployment scripts'
+    apply from: './scripts/bintray-deploy.gradle'
+}
+
+group 'org.streamingpool'
+
+sourceCompatibility = 1.8
+
+dependencies {
+    compile group: 'org.streamingpool', name: 'streamingpool-core', version: '1.2.12'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '1.5.4.RELEASE'
+    
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.4.RELEASE'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/java'
+        }
+    }
+    test {
+        java {
+            srcDir 'src/test'
+        }
+    }
+}
+
+javadoc { options.encoding = "UTF-8" }
+
+task wrapper(type: Wrapper) { gradleVersion = '4.0' }
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts { archives javadocJar, sourcesJar }
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        xml.destination new File("${buildDir}/reports/jacoco/report.xml")
+        html.enabled true
+        csv.enabled false
+    }
+}
