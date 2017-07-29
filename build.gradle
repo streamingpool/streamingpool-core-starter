@@ -4,22 +4,28 @@ buildscript {
     project.ext.DEPLOYMENT = System.getProperty('deployment') ?: false
     project.ext.VCS_TAG = System.getProperty('TRAVIS_TAG') ?: System.getenv('TRAVIS_TAG')
     project.ext.POM = [
-            groupId   : 'org.streamingpool',
-            artifactId: 'streamingpool-core-starter',
-            description: 'This is the starter for project streamingpool-core-starter.'
+        groupId   : 'org.streamingpool',
+        artifactId: 'streamingpool-core-starter',
+        description: 'This is the starter for project streamingpool-core-starter.',
+        developers : [
+            [
+                id   : 'streamingpool-dev',
+                name : 'Streamingpool Developers',
+                email: 'streamingpool-dev@cern.ch'
+            ]]
     ]
     project.ext.INFO = [
-            repo: 'https://github.com/streamingpool/streamingpool-core-starter.git',
-            url: 'http://www.streamingpool.org/',
-            github: 'https://github.com/streamingpool/streamingpool-core-starter',
-            githubIssues: 'https://github.com/streamingpool/streamingpool-core-starter/issues'
+        repo: 'https://github.com/streamingpool/streamingpool-core-starter.git',
+        url: 'http://www.streamingpool.org/',
+        github: 'https://github.com/streamingpool/streamingpool-core-starter',
+        githubIssues: 'https://github.com/streamingpool/streamingpool-core-starter/issues'
     ]
     project.ext.BINTRAY = [
-            repo: 'streamingpool-repos',
-            name: 'org.streamingpool:streamingpool-core-starter',
-            organization: 'streamingpool',
-            userName: 'streamingpool-dev',
-            apiToken: System.getenv('BINTRAY_API_TOKEN')
+        repo: 'streamingpool-repos',
+        name: 'org.streamingpool:streamingpool-core-starter',
+        organization: 'streamingpool',
+        userName: 'streamingpool-dev',
+        apiToken: System.getenv('BINTRAY_API_TOKEN')
     ]
     repositories {
         if (CERN_VM) {
@@ -46,8 +52,8 @@ apply plugin: 'com.jfrog.bintray'
 
 repositories {
     if (CERN_VM) {
-            maven { url 'http://artifactory.cern.ch/ds-jcenter' }
-            maven { url 'http://artifactory.cern.ch/development' }
+        maven { url 'http://artifactory.cern.ch/ds-jcenter' }
+        maven { url 'http://artifactory.cern.ch/development' }
     } else {
         mavenCentral()
         jcenter()
@@ -66,20 +72,16 @@ sourceCompatibility = 1.8
 dependencies {
     compile group: 'org.streamingpool', name: 'streamingpool-core', version: '1.+'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '1.5.4.RELEASE'
-    
+
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.4.RELEASE'
 }
 
 sourceSets {
     main {
-        java {
-            srcDir 'src/java'
-        }
+        java { srcDir 'src/java' }
     }
     test {
-        java {
-            srcDir 'src/test'
-        }
+        java { srcDir 'src/test' }
     }
 }
 
