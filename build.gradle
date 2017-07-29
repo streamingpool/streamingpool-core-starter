@@ -23,8 +23,9 @@ buildscript {
     ]
     repositories {
         if (CERN_VM) {
-            maven { url 'http://artifactory.cern.ch/repo' }
-            maven { url 'http://artifactory.cern.ch/jcenter' }
+            maven { url 'http://artifactory.cern.ch/gradle-plugins' }
+            maven { url 'http://artifactory.cern.ch/ds-jcenter' }
+            maven { url 'http://artifactory.cern.ch/development' }
         } else {
             mavenCentral()
             jcenter()
@@ -45,8 +46,8 @@ apply plugin: 'com.jfrog.bintray'
 
 repositories {
     if (CERN_VM) {
-        maven { url 'http://artifactory.cern.ch/repo' }
-        maven { url 'http://artifactory.cern.ch/jcenter' }
+            maven { url 'http://artifactory.cern.ch/ds-jcenter' }
+            maven { url 'http://artifactory.cern.ch/development' }
     } else {
         mavenCentral()
         jcenter()
@@ -63,7 +64,7 @@ group 'org.streamingpool'
 sourceCompatibility = 1.8
 
 dependencies {
-    compile group: 'org.streamingpool', name: 'streamingpool-core', version: '1.2.12'
+    compile group: 'org.streamingpool', name: 'streamingpool-core', version: '1.+'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '1.5.4.RELEASE'
     
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.4.RELEASE'
