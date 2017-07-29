@@ -9,8 +9,11 @@ import org.springframework.context.annotation.Import;
 import org.streamingpool.core.conf.DefaultStreamFactories;
 import org.streamingpool.core.conf.EmbeddedPoolConfiguration;
 
+/**
+ * Streamingpool configuration
+ */
 @Configuration
 @Import({ EmbeddedPoolConfiguration.class, DefaultStreamFactories.class })
 public class StreamingPoolCoreStarterConfiguration {
-    //
+    /* */
 }
