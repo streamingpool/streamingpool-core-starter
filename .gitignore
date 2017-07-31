@@ -7,3 +7,4 @@
 *.lock
 cache.*
 /build/
+.springBeans

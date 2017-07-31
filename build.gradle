@@ -79,7 +79,6 @@ dependencies {
 
 sourceSets {
     main { java { srcDir 'src/java' } }
-    test { java { srcDir 'src/test' } }
 }
 
 javadoc { options.encoding = "UTF-8" }
