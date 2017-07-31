@@ -71,18 +71,15 @@ sourceCompatibility = 1.8
 
 dependencies {
     compile group: 'org.streamingpool', name: 'streamingpool-core', version: '1.+'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '1.5.4.RELEASE'
-
+    compile (group: 'org.springframework.boot', name: 'spring-boot-starter', version: '1.5.4.RELEASE') {
+        exclude module: "spring-boot-starter-logging"
+    }
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.4.RELEASE'
 }
 
 sourceSets {
-    main {
-        java { srcDir 'src/java' }
-    }
-    test {
-        java { srcDir 'src/test' }
-    }
+    main { java { srcDir 'src/java' } }
+    test { java { srcDir 'src/test' } }
 }
 
 javadoc { options.encoding = "UTF-8" }
